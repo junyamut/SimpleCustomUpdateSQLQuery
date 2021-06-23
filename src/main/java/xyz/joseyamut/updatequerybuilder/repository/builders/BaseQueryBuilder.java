@@ -12,7 +12,7 @@ public abstract class BaseQueryBuilder {
     public final String AND_OPERATOR = "AND";
     public final String OR_OPERATOR = "OR";
     public final List<String> IGNORE_COLUMNS = Arrays.asList("created_by", "created_on");
-    public final List<String> MANDATORY_COLUMNS = Collections.singletonList("updated_by");
+    public final List<String> MANDATORY_COLUMNS = Arrays.asList("updated_by", "is_active");
 
     protected abstract void setUpdateQueryStatement(Object entity);
 
