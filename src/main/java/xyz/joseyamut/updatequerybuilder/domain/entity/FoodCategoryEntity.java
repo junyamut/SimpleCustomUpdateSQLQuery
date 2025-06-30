@@ -61,7 +61,7 @@ public class FoodCategoryEntity implements Serializable {
         this.groupId = dto.getGroupId();
         this.description = dto.getDescription();
         this.createdBy = dto.getCreatedBy();
-        this.createdOn =  new Timestamp(new Date().getTime());
+        this.createdOn = new Timestamp(new Date().getTime());
         this.isActive = dto.isActive() ? "Y" : "N";
     }
 

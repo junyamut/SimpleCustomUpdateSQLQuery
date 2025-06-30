@@ -6,10 +6,15 @@ spring:
     password: # password
   jpa:
     show-sql: true
-    hibernate.ddl-auto: update
+    hibernate:
+      ddl-auto: create
     generate-ddl: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
 server:
   servlet:
     context-path: /update-query-builder/
+
+logging:
+  level:
+    ROOT: DEBUG

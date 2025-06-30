@@ -7,6 +7,9 @@ import xyz.joseyamut.updatequerybuilder.domain.dao.FoodCategoryDao;
 import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
 import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 public class FoodCategoryService {
@@ -19,6 +22,28 @@ public class FoodCategoryService {
         FoodCategory foodCategory = new FoodCategory();
         foodCategory.populate(foodCategoryEntity);
         return foodCategory;
+    }
+
+    public List<FoodCategory> getListById(Integer page, Integer size) {
+        List<FoodCategoryEntity> foodCategoryEntityList = foodCategoryDao.listEntitiesById(page, size);
+        List<FoodCategory> foodCategoryList = new ArrayList<>();
+        for (FoodCategoryEntity foodCategoryEntity : foodCategoryEntityList) {
+            FoodCategory foodCategory = new FoodCategory();
+            foodCategory.populate(foodCategoryEntity);
+            foodCategoryList.add(foodCategory);
+        }
+        return foodCategoryList;
+    }
+
+    public List<FoodCategory> getListByName(Integer page, Integer size) {
+        List<FoodCategoryEntity> foodCategoryEntityList = foodCategoryDao.listEntitiesByName(page, size);
+        List<FoodCategory> foodCategoryList = new ArrayList<>();
+        for (FoodCategoryEntity foodCategoryEntity : foodCategoryEntityList) {
+            FoodCategory foodCategory = new FoodCategory();
+            foodCategory.populate(foodCategoryEntity);
+            foodCategoryList.add(foodCategory);
+        }
+        return foodCategoryList;
     }
 
     public Integer create(FoodCategory dto) {

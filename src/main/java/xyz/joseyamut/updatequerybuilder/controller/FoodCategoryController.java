@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
 import xyz.joseyamut.updatequerybuilder.service.FoodCategoryService;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/food-category")
@@ -14,10 +16,24 @@ public class FoodCategoryController {
     @Autowired
     private FoodCategoryService foodCategoryService;
 
-    @GetMapping(path = "/get/{id}", produces = {"application/json"})
+    @GetMapping(path = "/id/{id}", produces = {"application/json"})
     @ResponseBody
-    public FoodCategory getFoodCategory(@PathVariable(name = "id") Integer id) {
+    public FoodCategory getFoodCategoryById(@PathVariable(name = "id") Integer id) {
         return foodCategoryService.get(id);
+    }
+
+    @GetMapping(path = "/getAllById", produces = {"application/json"})
+    @ResponseBody
+    public List<FoodCategory> getFoodCategoriesAtId(@RequestParam(name = "p", defaultValue = "0") Integer page,
+                                                    @RequestParam(name = "s", defaultValue = "5") Integer size) {
+        return foodCategoryService.getListById(page, size);
+    }
+
+    @GetMapping(path = "/getAllByName", produces = {"application/json"})
+    @ResponseBody
+    public List<FoodCategory> getFoodCategoriesAtName(@RequestParam(name = "p", defaultValue = "0") Integer page,
+                                                    @RequestParam(name = "s", defaultValue = "5") Integer size) {
+        return foodCategoryService.getListByName(page, size);
     }
 
     @PostMapping(value = "/create", produces = {"application/json"}, consumes = {"application/json"})
@@ -30,6 +46,9 @@ public class FoodCategoryController {
     @PutMapping(value = "/update", produces = {"application/json"}, consumes = {"application/json"})
     @ResponseBody
     public FoodCategory updateFoodCategory(@RequestBody FoodCategory foodCategory) {
+        if (foodCategory.getId() == null || foodCategory.getId() <= 0) {
+            throw new IllegalArgumentException("Error: A valid Id is required.");
+        }
         foodCategoryService.update(foodCategory);
         return foodCategoryService.get(foodCategory.getId());
     }
