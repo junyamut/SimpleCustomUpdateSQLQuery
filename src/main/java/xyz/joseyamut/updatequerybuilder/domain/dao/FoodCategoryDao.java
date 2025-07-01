@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
 import xyz.joseyamut.updatequerybuilder.repository.FoodCategoryRepository;
-import xyz.joseyamut.updatequerybuilder.repository.builders.FoodCategoryQueryBuilder;
+import xyz.joseyamut.updatequerybuilder.repository.util.FoodCategoryQueryBuilder;
 
 import java.util.List;
 
@@ -29,15 +29,13 @@ public class FoodCategoryDao {
         return foodCategoryRepository.getOne(id);
     }
 
-    public List<FoodCategoryEntity> listEntitiesById(Integer page, Integer size) {
+    public List<FoodCategoryEntity> listEntities(String orderBy, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<FoodCategoryEntity> foodCategoryEntityPage = foodCategoryRepository.listAllById(pageable);
-        return foodCategoryEntityPage.getContent();
-    }
-
-    public List<FoodCategoryEntity> listEntitiesByName(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<FoodCategoryEntity> foodCategoryEntityPage = foodCategoryRepository.listAllByName(pageable);
+        // default to ordering by Id
+        Page<FoodCategoryEntity> foodCategoryEntityPage = foodCategoryRepository.listByPageOrderById(pageable);
+        if (orderBy.equalsIgnoreCase("name")) {
+            foodCategoryEntityPage = foodCategoryRepository.listByPageOrderByName(pageable);
+        }
         return foodCategoryEntityPage.getContent();
     }
 
@@ -51,6 +49,6 @@ public class FoodCategoryDao {
         foodCategoryQueryBuilder.setUpdateQueryStatement(entity);
         String queryStatement = foodCategoryQueryBuilder.getUpdateQueryStatement();
         log.debug("Update Query: {}", queryStatement);
-        foodCategoryRepository.customQueryUpdate(queryStatement);
+        foodCategoryRepository.update(queryStatement);
     }
 }

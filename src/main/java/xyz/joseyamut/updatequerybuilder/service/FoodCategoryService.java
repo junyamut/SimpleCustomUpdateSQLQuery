@@ -24,19 +24,8 @@ public class FoodCategoryService {
         return foodCategory;
     }
 
-    public List<FoodCategory> getListById(Integer page, Integer size) {
-        List<FoodCategoryEntity> foodCategoryEntityList = foodCategoryDao.listEntitiesById(page, size);
-        List<FoodCategory> foodCategoryList = new ArrayList<>();
-        for (FoodCategoryEntity foodCategoryEntity : foodCategoryEntityList) {
-            FoodCategory foodCategory = new FoodCategory();
-            foodCategory.populate(foodCategoryEntity);
-            foodCategoryList.add(foodCategory);
-        }
-        return foodCategoryList;
-    }
-
-    public List<FoodCategory> getListByName(Integer page, Integer size) {
-        List<FoodCategoryEntity> foodCategoryEntityList = foodCategoryDao.listEntitiesByName(page, size);
+    public List<FoodCategory> getList(String orderBy, Integer page, Integer size) {
+        List<FoodCategoryEntity> foodCategoryEntityList = foodCategoryDao.listEntities(orderBy, page, size);
         List<FoodCategory> foodCategoryList = new ArrayList<>();
         for (FoodCategoryEntity foodCategoryEntity : foodCategoryEntityList) {
             FoodCategory foodCategory = new FoodCategory();

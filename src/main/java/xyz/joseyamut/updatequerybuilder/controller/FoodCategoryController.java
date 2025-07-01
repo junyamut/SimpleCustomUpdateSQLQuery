@@ -16,24 +16,18 @@ public class FoodCategoryController {
     @Autowired
     private FoodCategoryService foodCategoryService;
 
-    @GetMapping(path = "/id/{id}", produces = {"application/json"})
+    @GetMapping(path = "/categories/{id}", produces = {"application/json"})
     @ResponseBody
     public FoodCategory getFoodCategoryById(@PathVariable(name = "id") Integer id) {
         return foodCategoryService.get(id);
     }
 
-    @GetMapping(path = "/getAllById", produces = {"application/json"})
+    @GetMapping(path = "/categories", produces = {"application/json"})
     @ResponseBody
-    public List<FoodCategory> getFoodCategoriesAtId(@RequestParam(name = "p", defaultValue = "0") Integer page,
+    public List<FoodCategory> getFoodCategories(@RequestParam(name = "by", defaultValue = "id") String orderBy,
+                                                    @RequestParam(name = "p", defaultValue = "0") Integer page,
                                                     @RequestParam(name = "s", defaultValue = "5") Integer size) {
-        return foodCategoryService.getListById(page, size);
-    }
-
-    @GetMapping(path = "/getAllByName", produces = {"application/json"})
-    @ResponseBody
-    public List<FoodCategory> getFoodCategoriesAtName(@RequestParam(name = "p", defaultValue = "0") Integer page,
-                                                    @RequestParam(name = "s", defaultValue = "5") Integer size) {
-        return foodCategoryService.getListByName(page, size);
+        return foodCategoryService.getList(orderBy, page, size);
     }
 
     @PostMapping(value = "/create", produces = {"application/json"}, consumes = {"application/json"})
