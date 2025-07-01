@@ -1,4 +1,4 @@
-package xyz.joseyamut.updatequerybuilder.repository.builders;
+package xyz.joseyamut.updatequerybuilder.repository.util;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package xyz.joseyamut.updatequerybuilder.repository.builders;
+package xyz.joseyamut.updatequerybuilder.repository.util;
 
 import org.springframework.stereotype.Component;
 

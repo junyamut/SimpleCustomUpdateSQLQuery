@@ -1,4 +1,4 @@
-package xyz.joseyamut.updatequerybuilder.repository.builders;
+package xyz.joseyamut.updatequerybuilder.repository.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
