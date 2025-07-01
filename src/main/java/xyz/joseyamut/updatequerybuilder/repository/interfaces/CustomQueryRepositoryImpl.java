@@ -5,14 +5,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-public class CustomRepositoryImpl implements CustomRepository {
+public class CustomQueryRepositoryImpl implements CustomQueryRepository {
 
     @PersistenceContext
     protected EntityManager manager;
 
     @Override
     @Transactional
-    public void customQueryUpdate(String statement) {
+    public void update(String statement) {
         Query query = manager.createNativeQuery(statement);
         query.executeUpdate();
         manager.flush();
