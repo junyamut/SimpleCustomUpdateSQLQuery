@@ -15,7 +15,7 @@ public class FoodCategoryQueryBuilder extends BaseQueryBuilder {
 
     private final String TABLE_NAME = "food_category";
     private final List<String> PRIMARY_KEY = Collections.singletonList("food_category_id");
-    private List<String> additionalIgnoreColumns = new ArrayList<>(Arrays.asList("updated_on"));
+    private List<String> additionalIgnoreColumns = new ArrayList<>();
 
     @PostConstruct
     public void initializeQueryBuilder() {

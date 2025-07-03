@@ -26,7 +26,6 @@ class UpdateQueryHelper {
     private List<String> tableKeyColumns = new ArrayList<>();
     private List<String> ignoreColumns = new ArrayList<>();
     private List<String> mandatoryColumns = new ArrayList<>();
-    private String updatedOnAlwaysUpdateColumn = "updated_on";
 
     String buildStatement() {
         Field[] updateEntityColumns = update.getClass().getDeclaredFields();
@@ -56,9 +55,7 @@ class UpdateQueryHelper {
                     }
 
                     String keyValuePair = keyValuePairJoiner(columnName, prepareObjectType(columnValue));
-                    String alwaysUpdateColumn = keyValuePairJoiner(updatedOnAlwaysUpdateColumn, prepareObjectType(new Timestamp(new Date().getTime())));
                     columnsForUpdate.add(keyValuePair);
-                    columnsForUpdate.add(alwaysUpdateColumn);
                 }
             } catch (IllegalAccessException exception) {
                 log.error("Error encountered: {}", exception.getMessage());
