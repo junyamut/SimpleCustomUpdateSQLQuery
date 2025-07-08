@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
 import xyz.joseyamut.updatequerybuilder.repository.FoodCategoryRepository;
 import xyz.joseyamut.updatequerybuilder.repository.util.FoodCategoryQueryBuilder;
@@ -13,7 +13,7 @@ import xyz.joseyamut.updatequerybuilder.repository.util.FoodCategoryQueryBuilder
 import java.util.List;
 
 @Slf4j
-@Service
+@Component
 public class FoodCategoryDao {
 
     @Autowired

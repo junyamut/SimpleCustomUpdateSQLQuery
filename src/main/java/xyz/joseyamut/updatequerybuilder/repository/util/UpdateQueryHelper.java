@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -24,8 +23,8 @@ class UpdateQueryHelper {
     private String operator;
     private Object update;
     private List<String> tableKeyColumns = new ArrayList<>();
-    private List<String> ignoreColumns = new ArrayList<>();
-    private List<String> mandatoryColumns = new ArrayList<>();
+    private List<String> ignoreColumns = new ArrayList<>(); // Ignore fields with non-NULL value in DTO model.
+    private List<String> mandatoryColumns = new ArrayList<>(); // These fields are always in the UPDATE query statement.
 
     String buildStatement() {
         Field[] updateEntityColumns = update.getClass().getDeclaredFields();

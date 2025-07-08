@@ -2,6 +2,7 @@ package xyz.joseyamut.updatequerybuilder.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
 import xyz.joseyamut.updatequerybuilder.service.FoodCategoryService;
@@ -41,7 +42,10 @@ public class FoodCategoryController {
     @ResponseBody
     public FoodCategory updateFoodCategory(@RequestBody FoodCategory foodCategory) {
         if (foodCategory.getId() == null || foodCategory.getId() <= 0) {
-            throw new IllegalArgumentException("Error: A valid Id is required.");
+            throw new IllegalArgumentException("Error : 'id' field missing : A valid Id is required.");
+        }
+        if (!StringUtils.hasText(foodCategory.getUpdatedBy())) {
+            throw new IllegalArgumentException("Error : 'updated_by' field is missing.");
         }
         foodCategoryService.update(foodCategory);
         return foodCategoryService.get(foodCategory.getId());

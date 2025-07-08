@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +24,11 @@ public class FoodCategoryQueryBuilder extends BaseQueryBuilder {
         getHelper().setTable(TABLE_NAME);
         getHelper().setOperator(AND_OPERATOR);
         getHelper().setTableKeyColumns(PRIMARY_KEY);
+
+        MANDATORY_COLUMNS.add("updated_by");
+        MANDATORY_COLUMNS.add("updated_on");
+
+        getHelper().setMandatoryColumns(MANDATORY_COLUMNS);
     }
 
     @Override
