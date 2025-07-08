@@ -41,7 +41,7 @@ public class FoodCategory {
     private String updatedOn;
 
     @JsonProperty("is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     public void populate(FoodCategoryEntity entity) {
         this.id = entity.getId();
@@ -53,12 +53,6 @@ public class FoodCategory {
         this.updatedBy = entity.getUpdatedBy();
         this.updatedOn = formatDate(entity.getUpdatedOn());
         this.isActive = entity.getIsActive().equalsIgnoreCase("Y");
-    }
-
-    public void update(FoodCategoryEntity entity) {
-        populate(entity);
-        this.updatedBy = entity.getUpdatedBy();
-        this.updatedOn = formatDate(entity.getUpdatedOn());
     }
 
     private String formatDate(Timestamp timestamp) {
