@@ -5,11 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
+import xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.ZoneId;
+
+import static xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper.DEFAULT_TARGET_ZONE_ID;
 
 @Slf4j
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -49,16 +50,17 @@ public class FoodCategory {
         this.description = entity.getDescription();
         this.groupId = entity.getGroupId();
         this.createdBy = entity.getCreatedBy();
-        this.createdOn = formatDate(entity.getCreatedOn());
+        this.createdOn = displayAsLocalDateTime(entity.getCreatedOn());
         this.updatedBy = entity.getUpdatedBy();
-        this.updatedOn = formatDate(entity.getUpdatedOn());
+        this.updatedOn = displayAsLocalDateTime(entity.getUpdatedOn());
         this.isActive = entity.getIsActive().equalsIgnoreCase("Y");
     }
 
-    private String formatDate(Timestamp timestamp) {
+    private String displayAsLocalDateTime(Timestamp timestamp) {
         if (timestamp != null) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
-            return dateFormat.format(new Date(timestamp.getTime()));
+            return DateTimeFormatHelper.convertWithZonedDateTime(timestamp,
+                    DEFAULT_TARGET_ZONE_ID, ZoneId.systemDefault().toString(),
+                    "yyyy-MM-dd HH:mm:ss");
         }
         return null;
     }

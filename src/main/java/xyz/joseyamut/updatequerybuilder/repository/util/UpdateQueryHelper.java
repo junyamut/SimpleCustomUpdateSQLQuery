@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringEscapeUtils;
+import xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -18,6 +20,7 @@ import java.util.StringJoiner;
 @Setter
 class UpdateQueryHelper {
 
+    private String targetZoneId;
     private String schema;
     private String table;
     private String operator;
@@ -84,13 +87,19 @@ class UpdateQueryHelper {
     /*Prepare and sanitize the query values*/
     private String prepareObjectType(Object object) {
         StringBuilder preparedString = new StringBuilder();
-        if (object instanceof String || object instanceof Timestamp) {
+        if (object instanceof String) {
             String sanitized = StringEscapeUtils.escapeSql(object.toString());
+            preparedString.append("'").append(sanitized).append("'");
+        } else if (object instanceof Timestamp) {
+            String convertedTimestamp = DateTimeFormatHelper.convertWithZonedDateTime((Timestamp) object,
+                    ZoneId.systemDefault().toString(), this.targetZoneId,
+                    "");
+            String sanitized = StringEscapeUtils.escapeSql(convertedTimestamp);
             preparedString.append("'").append(sanitized).append("'");
         } else if (object instanceof Integer) {
             preparedString.append(object.toString());
         } else if (object instanceof Boolean) {
-            preparedString.append(((Boolean) object).booleanValue() ? "'Y'" : "'N'");
+            preparedString.append((Boolean) object ? "'Y'" : "'N'");
         }
         return preparedString.toString();
     }

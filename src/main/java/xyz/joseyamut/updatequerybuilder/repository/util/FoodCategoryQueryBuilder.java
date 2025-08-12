@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper.DEFAULT_TARGET_ZONE_ID;
+
 @Component
 public class FoodCategoryQueryBuilder extends BaseQueryBuilder {
 
@@ -24,6 +26,7 @@ public class FoodCategoryQueryBuilder extends BaseQueryBuilder {
         getHelper().setTable(TABLE_NAME);
         getHelper().setOperator(AND_OPERATOR);
         getHelper().setTableKeyColumns(PRIMARY_KEY);
+        getHelper().setTargetZoneId(DEFAULT_TARGET_ZONE_ID);
 
         MANDATORY_COLUMNS.add("updated_by");
         MANDATORY_COLUMNS.add("updated_on");

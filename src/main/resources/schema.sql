@@ -10,9 +10,9 @@ CREATE TABLE `food_category` (
   `description` varchar(254) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `group_id` int(4) DEFAULT NULL,
   `created_by` varchar(48) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_on` datetime NOT NULL,
+  `created_on` timestamp NOT NULL,
   `updated_by` varchar(48) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `updated_on` datetime DEFAULT NULL,
+  `updated_on` timestamp DEFAULT NULL,
   `is_active` char(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`food_category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
