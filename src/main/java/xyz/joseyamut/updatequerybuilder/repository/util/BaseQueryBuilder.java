@@ -21,11 +21,11 @@ public abstract class BaseQueryBuilder {
     }
 
     protected UpdateQueryHelper getHelper() {
-        if (updateQueryHelper.getIgnoreColumns().size() == 0) {
+        if (updateQueryHelper.getIgnoreColumns().isEmpty()) {
             updateQueryHelper.setIgnoreColumns(IGNORE_COLUMNS);
         }
 
-        if (updateQueryHelper.getMandatoryColumns().size() == 0) {
+        if (updateQueryHelper.getMandatoryColumns().isEmpty()) {
             updateQueryHelper.setMandatoryColumns(MANDATORY_COLUMNS);
         }
 
