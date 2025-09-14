@@ -97,9 +97,9 @@ class UpdateQueryHelper {
             String sanitized = StringEscapeUtils.escapeSql(convertedTimestamp);
             preparedString.append("'").append(sanitized).append("'");
         } else if (object instanceof Integer) {
-            preparedString.append(object.toString());
+            preparedString.append(object);
         } else if (object instanceof Boolean) {
-            preparedString.append((Boolean) object ? "'Y'" : "'N'");
+            preparedString.append(object);
         }
         return preparedString.toString();
     }

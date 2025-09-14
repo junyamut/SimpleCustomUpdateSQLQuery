@@ -54,7 +54,7 @@ public class FoodCategoryEntity implements Serializable {
     private Timestamp updatedOn;
 
     @Column(name = "is_active")
-    private String isActive;
+    private Boolean isActive;
 
     public void populate(FoodCategory dto) {
         this.name = dto.getName();
@@ -63,7 +63,7 @@ public class FoodCategoryEntity implements Serializable {
         this.createdBy = dto.getCreatedBy();
         this.createdOn = new Timestamp(new Date().getTime());
         if (dto.getIsActive() != null) {
-            this.isActive = dto.getIsActive() ? "Y" : "N";
+            this.isActive = dto.getIsActive();
         }
     }
 
