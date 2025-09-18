@@ -47,4 +47,8 @@ public class FoodCategoryService {
         foodCategoryEntity.update(dto);
         foodCategoryDao.updateEntity(foodCategoryEntity);
     }
+
+    public void delete(Integer id) {
+        foodCategoryDao.deleteEntity(id);
+    }
 }

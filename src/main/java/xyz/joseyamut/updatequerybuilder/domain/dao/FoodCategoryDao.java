@@ -51,4 +51,12 @@ public class FoodCategoryDao {
         log.debug("Update Query: {}", queryStatement);
         foodCategoryRepository.update(queryStatement);
     }
+
+    public void deleteEntity(Integer id) {
+        if (!foodCategoryRepository.existsById(id)) {
+            throw new IllegalArgumentException("Id does not exist");
+        }
+        foodCategoryRepository.deleteById(id);
+        log.warn("Entity with Id {} deleted!", id);
+    }
 }

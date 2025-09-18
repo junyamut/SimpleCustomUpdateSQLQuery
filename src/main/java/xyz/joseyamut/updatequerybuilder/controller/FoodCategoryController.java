@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping(value = "/food-category/categories")
 @Validated
 public class FoodCategoryController {
-// Todo: add Delete method
+
     @Autowired
     private FoodCategoryService foodCategoryService;
 
@@ -58,6 +58,13 @@ public class FoodCategoryController {
     @ResponseBody
     public ResponseEntity<FoodCategory> updateFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         foodCategoryService.update(foodCategory);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @ResponseBody
+    public ResponseEntity<Void> deleteFoodCategory(@PathVariable(name = "id") Integer id) {
+        foodCategoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
