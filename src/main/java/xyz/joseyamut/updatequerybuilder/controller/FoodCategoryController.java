@@ -2,6 +2,7 @@ package xyz.joseyamut.updatequerybuilder.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -53,12 +54,20 @@ public class FoodCategoryController {
         return ResponseEntity.created(location).body(createdFoodCategory);
     }
 
-    @PutMapping(produces = {"application/json"}, consumes = {"application/json"})
+    @PutMapping(consumes = {"application/json"})
     @Validated(UpdateFoodCategoryGroup.class)
     @ResponseBody
-    public ResponseEntity<FoodCategory> updateFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
+    public ResponseEntity<Void> updateFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         foodCategoryService.update(foodCategory);
-        return ResponseEntity.noContent().build();
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(foodCategory.getId())
+                .toUri();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .header("Location", String.valueOf(location))
+                .build();
     }
 
     @DeleteMapping(path = "/{id}")

@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
+import xyz.joseyamut.updatequerybuilder.domain.exception.ResourceNotFoundException;
 import xyz.joseyamut.updatequerybuilder.repository.FoodCategoryRepository;
 import xyz.joseyamut.updatequerybuilder.repository.util.FoodCategoryQueryBuilder;
 
@@ -24,7 +25,7 @@ public class FoodCategoryDao {
 
     public FoodCategoryEntity getEntity(Integer id) {
         if (!foodCategoryRepository.existsById(id)) {
-            throw new IllegalArgumentException("Id does not exist");
+            throw new ResourceNotFoundException("Id does not exist");
         }
         return foodCategoryRepository.getOne(id);
     }
@@ -54,7 +55,7 @@ public class FoodCategoryDao {
 
     public void deleteEntity(Integer id) {
         if (!foodCategoryRepository.existsById(id)) {
-            throw new IllegalArgumentException("Id does not exist");
+            throw new ResourceNotFoundException("Id does not exist");
         }
         foodCategoryRepository.deleteById(id);
         log.warn("Entity with Id {} deleted!", id);
