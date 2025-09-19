@@ -2,11 +2,18 @@
 
 #### (Spring Boot application)
 
-*Description: Builds a simple SQL UPDATE query statement.*
+*Description:*
+This is a RESTful API with implementations of the  HTTP methods - GET, POST, PUT and DELETE.
+While it showcases how to perform CRUD operations for resources over HTTP, the highlight was
+originally intended (years ago) as a proof of concept workaround for updating resources with only
+the minimal amount of data/fields required for the update to take effect. 
+
+The application builds a straightforward SQL update query statement from the fields provided
+in the update (PUT) payload.
 
 #### Notes
-* Mandatory columns field are there only so the update won't push through if there is nothing to update. See caveats below.
+* Needs more exception/error handling.
+* Add BDD/unit tests?
 
 #### Caveats
-* No validation in place for mandatory fields in POST or PUT requests.
-* Needs more proper error handling.
+* ~~No validation in place for mandatory fields in POST or PUT requests.~~
