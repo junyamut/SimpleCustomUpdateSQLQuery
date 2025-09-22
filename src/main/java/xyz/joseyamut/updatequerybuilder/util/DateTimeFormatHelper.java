@@ -12,7 +12,7 @@ import java.util.Locale;
 public class DateTimeFormatHelper {
 
     public static final String DEFAULT_TARGET_ZONE_ID = "UTC";
-    public static final String formatPattern = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 
     public static DateTimeFormatter dateTimeFormatter(String pattern) {
         return DateTimeFormatter.ofPattern(pattern, Locale.US);
@@ -27,7 +27,7 @@ public class DateTimeFormatHelper {
         ZonedDateTime localZonedDateTime = localInstant.atZone(sourceZoneId);
         ZonedDateTime targetZonedDateTime = localZonedDateTime.withZoneSameInstant(targetZoneId);
         if (!StringUtils.hasText(formatPattern)) {
-            formatPattern = DateTimeFormatHelper.formatPattern;
+            formatPattern = DateTimeFormatHelper.FORMAT_PATTERN;
         }
         return targetZonedDateTime.format(dateTimeFormatter(formatPattern));
     }
