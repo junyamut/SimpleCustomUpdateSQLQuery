@@ -5,17 +5,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import xyz.joseyamut.updatequerybuilder.domain.exception.ResourceNotFoundException;
 import xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-import static xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper.DEFAULT_TARGET_ZONE_ID;
 import static xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper.FORMAT_PATTERN;
 
 @ControllerAdvice
@@ -35,9 +39,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<ErrorResponseBody> handleConstraintViolationException(ConstraintViolationException e,
                                                                                 HttpServletRequest request) {
+        List<String> combinedErrorMessages = e.getConstraintViolations().stream()
+                .filter(Objects::nonNull)
+                .map(ConstraintViolation::getMessage)
+                .filter(StringUtils::hasText)
+                .collect(Collectors.toList());
         ErrorResponseBody errorResponseBody = new ErrorResponseBody();
         createErrorResponseBody(errorResponseBody, HttpStatus.BAD_REQUEST,
-                e.getMessage(), request.getRequestURI());
+                String.valueOf(combinedErrorMessages), request.getRequestURI());
         return new ResponseEntity<>(errorResponseBody, HttpStatus.BAD_REQUEST);
     }
 
@@ -59,7 +68,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         private String message;
         private String path;
         private String timestamp = DateTimeFormatHelper.convertWithZonedDateTime(new Timestamp(System.currentTimeMillis()),
-                DEFAULT_TARGET_ZONE_ID, ZoneId.systemDefault().toString(),
-                FORMAT_PATTERN);
+                ZoneId.systemDefault().toString(), ZoneId.systemDefault().toString(),
+                "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     }
 }
