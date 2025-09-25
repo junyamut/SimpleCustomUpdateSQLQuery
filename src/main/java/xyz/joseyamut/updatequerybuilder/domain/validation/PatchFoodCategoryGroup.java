@@ -1,4 +1,4 @@
 package xyz.joseyamut.updatequerybuilder.domain.validation;
 
-public interface UpdateFoodCategoryGroup {
+public interface PatchFoodCategoryGroup {
 }
