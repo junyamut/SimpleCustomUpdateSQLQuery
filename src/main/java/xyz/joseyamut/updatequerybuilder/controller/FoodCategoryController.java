@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import xyz.joseyamut.updatequerybuilder.domain.validation.CreateFoodCategoryGroup;
-import xyz.joseyamut.updatequerybuilder.domain.validation.UpdateFoodCategoryGroup;
+import xyz.joseyamut.updatequerybuilder.domain.validation.PostFoodCategoryGroup;
+import xyz.joseyamut.updatequerybuilder.domain.validation.PatchFoodCategoryGroup;
 import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
 import xyz.joseyamut.updatequerybuilder.service.FoodCategoryService;
 
@@ -38,7 +38,7 @@ public class FoodCategoryController {
     }
 
     @PostMapping(produces = {"application/json"}, consumes = {"application/json"})
-    @Validated(CreateFoodCategoryGroup.class)
+    @Validated(PostFoodCategoryGroup.class)
     public ResponseEntity<FoodCategory> createFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         Integer id = foodCategoryService.create(foodCategory);
         FoodCategory createdFoodCategory = foodCategoryService.get(id);
@@ -51,8 +51,8 @@ public class FoodCategoryController {
         return ResponseEntity.created(location).body(createdFoodCategory);
     }
 
-    @PutMapping(consumes = {"application/json"})
-    @Validated(UpdateFoodCategoryGroup.class)
+    @PatchMapping(consumes = {"application/json"})
+    @Validated(PatchFoodCategoryGroup.class)
     public ResponseEntity<Void> updateFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         foodCategoryService.update(foodCategory);
 
