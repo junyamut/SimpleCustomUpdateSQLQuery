@@ -32,7 +32,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseBody, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({ConstraintViolationException.class})
+    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponseBody> handleConstraintViolationException(ConstraintViolationException e,
                                                                                 HttpServletRequest request) {
         List<String> combinedErrorMessages = e.getConstraintViolations().stream()
@@ -43,6 +43,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponseBody errorResponseBody = new ErrorResponseBody();
         createErrorResponseBody(errorResponseBody, HttpStatus.BAD_REQUEST,
                 String.valueOf(combinedErrorMessages), request.getRequestURI());
+        return new ResponseEntity<>(errorResponseBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponseBody> handleIllegalArgumentException(IllegalArgumentException e,
+                                                                            HttpServletRequest request) {
+        ErrorResponseBody errorResponseBody = new ErrorResponseBody();
+        createErrorResponseBody(errorResponseBody, HttpStatus.BAD_REQUEST,
+                e.getMessage(), request.getRequestURI());
         return new ResponseEntity<>(errorResponseBody, HttpStatus.BAD_REQUEST);
     }
 
