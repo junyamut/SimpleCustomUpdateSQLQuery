@@ -60,7 +60,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Data
-    @JsonPropertyOrder({"message", "status", "error", "location"})
+    @JsonPropertyOrder({"message", "status", "error", "path", "timestamp"})
     static class ErrorResponseBody {
         @JsonProperty(value = "status")
         private Integer httpStatus;
