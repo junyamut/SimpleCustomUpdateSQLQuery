@@ -38,34 +38,37 @@ class UpdateQueryHelper {
         for (Field updateEntityColumn : updateEntityColumns) {
             updateEntityColumn.setAccessible(true);
             try {
-                if (updateEntityColumn.get(update) != null && updateEntityColumn.getAnnotation(Column.class) != null) {
-                    String columnName = updateEntityColumn.getAnnotation(Column.class).name();
-                    Object columnValue = updateEntityColumn.get(update);
-
-                    /*If these columns are present in the request, these will be ignored*/
-                    if (ignoreColumns.contains(columnName)) {
-                        continue;
-                    }
-                    /*We set this as the query conditions*/
-                    if (updateEntityColumn.isAnnotationPresent(Id.class) && tableKeyColumns.contains(columnName)) {
-                        queryConditions.add(conditionJoiner(columnName, columnValue.toString()));
-                        continue;
-                    }
-                    /*Count how many non-mandatory columns to be updated*/
-                    if (!mandatoryColumns.contains(columnName)) {
-                        totalColumnsForUpdateCount++;
-                    }
-
-                    String keyValuePair = keyValuePairJoiner(columnName, prepareObjectType(columnValue));
-                    columnsForUpdate.add(keyValuePair);
+                /*Skip null field or if without the proper annotation*/
+                if (updateEntityColumn.get(update) == null || updateEntityColumn.getAnnotation(Column.class) == null) {
+                    continue;
                 }
+
+                String columnName = updateEntityColumn.getAnnotation(Column.class).name();
+                Object columnValue = updateEntityColumn.get(update);
+
+                /*If column is present in the request payload, it will be ignored*/
+                if (ignoreColumns.contains(columnName)) {
+                    continue;
+                }
+                /*We set this as the query conditions*/
+                if (updateEntityColumn.isAnnotationPresent(Id.class) && tableKeyColumns.contains(columnName)) {
+                    queryConditions.add(conditionJoiner(columnName, columnValue.toString()));
+                    continue;
+                }
+                /*Count how many non-mandatory columns to be updated*/
+                if (!mandatoryColumns.contains(columnName)) {
+                    totalColumnsForUpdateCount++;
+                }
+
+                String keyValuePair = keyValuePairJoiner(columnName, prepareObjectType(columnValue));
+                columnsForUpdate.add(keyValuePair);
             } catch (IllegalAccessException exception) {
                 log.error("Error encountered: {}", exception.getMessage());
             }
         }
         /*Don't allow update if non-mandatory fields are not found*/
         if (totalColumnsForUpdateCount == 0) {
-            throw new IllegalArgumentException("Error: Zero non-mandatory fields found!");
+            throw new IllegalArgumentException("Zero non-mandatory fields found! Nothing to update.");
         }
         return queryStatement(columnsForUpdate, queryConditions);
     }
