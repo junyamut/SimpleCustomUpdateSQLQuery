@@ -20,13 +20,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper.FORMAT_PATTERN;
-
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseBody
     public ResponseEntity<ErrorResponseBody> handleResourceNotFoundException(ResourceNotFoundException e,
                                                                              HttpServletRequest request) {
         ErrorResponseBody errorResponseBody = new ErrorResponseBody();
@@ -36,7 +33,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
-    @ResponseBody
     public ResponseEntity<ErrorResponseBody> handleConstraintViolationException(ConstraintViolationException e,
                                                                                 HttpServletRequest request) {
         List<String> combinedErrorMessages = e.getConstraintViolations().stream()
