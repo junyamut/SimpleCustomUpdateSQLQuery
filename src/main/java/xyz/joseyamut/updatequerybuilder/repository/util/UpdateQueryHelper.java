@@ -89,19 +89,16 @@ class UpdateQueryHelper {
         StringBuilder preparedString = new StringBuilder();
         if (object instanceof String) {
             String sanitized = StringEscapeUtils.escapeSql(object.toString());
-            preparedString.append("'").append(sanitized).append("'");
-        } else if (object instanceof Timestamp) {
+            return String.valueOf(preparedString.append("'").append(sanitized).append("'"));
+        }
+        if (object instanceof Timestamp) {
             String convertedTimestamp = DateTimeFormatHelper.convertWithZonedDateTime((Timestamp) object,
                     ZoneId.systemDefault().toString(), this.targetZoneId,
                     "");
             String sanitized = StringEscapeUtils.escapeSql(convertedTimestamp);
-            preparedString.append("'").append(sanitized).append("'");
-        } else if (object instanceof Integer) {
-            preparedString.append(object);
-        } else if (object instanceof Boolean) {
-            preparedString.append(object);
+            return String.valueOf(preparedString.append("'").append(sanitized).append("'"));
         }
-        return preparedString.toString();
+        return String.valueOf(preparedString.append(object));
     }
 
     private String queryStatement(List<String> columns, List<String> queryConditions) {
