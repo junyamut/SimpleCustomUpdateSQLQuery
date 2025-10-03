@@ -1,7 +1,6 @@
 package xyz.joseyamut.updatequerybuilder.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.joseyamut.updatequerybuilder.domain.dao.FoodCategoryDao;
 import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
@@ -14,8 +13,11 @@ import java.util.List;
 @Service
 public class FoodCategoryService {
 
-    @Autowired
     private FoodCategoryDao foodCategoryDao;
+
+    public FoodCategoryService(FoodCategoryDao foodCategoryDao) {
+        this.foodCategoryDao = foodCategoryDao;
+    }
 
     public FoodCategory get(Integer id) {
         FoodCategoryEntity foodCategoryEntity = foodCategoryDao.getEntity(id);

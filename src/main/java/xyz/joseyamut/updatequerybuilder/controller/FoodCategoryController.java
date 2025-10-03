@@ -1,7 +1,6 @@
 package xyz.joseyamut.updatequerybuilder.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,8 +21,11 @@ import java.util.List;
 @Validated
 public class FoodCategoryController {
 
-    @Autowired
-    private FoodCategoryService foodCategoryService;
+    private final FoodCategoryService foodCategoryService;
+
+    public FoodCategoryController(FoodCategoryService foodCategoryService) {
+        this.foodCategoryService = foodCategoryService;
+    }
 
     @GetMapping(path = "/{id}", produces = {"application/json"})
     public ResponseEntity<FoodCategory> getFoodCategoryById(@PathVariable(name = "id") Integer id) {

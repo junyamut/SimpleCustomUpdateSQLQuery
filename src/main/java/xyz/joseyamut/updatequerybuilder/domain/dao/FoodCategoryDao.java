@@ -1,7 +1,6 @@
 package xyz.joseyamut.updatequerybuilder.domain.dao;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -9,19 +8,24 @@ import org.springframework.stereotype.Component;
 import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
 import xyz.joseyamut.updatequerybuilder.domain.exception.ResourceNotFoundException;
 import xyz.joseyamut.updatequerybuilder.repository.FoodCategoryRepository;
-import xyz.joseyamut.updatequerybuilder.repository.util.FoodCategoryQueryBuilder;
+//import xyz.joseyamut.updatequerybuilder.repository.util.FoodCategoryQueryBuilder;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
 @Component
 public class FoodCategoryDao {
 
-    @Autowired
-    private FoodCategoryRepository foodCategoryRepository;
+    private final FoodCategoryRepository foodCategoryRepository;
 
-    @Autowired
-    private FoodCategoryQueryBuilder foodCategoryQueryBuilder;
+//    private final FoodCategoryQueryBuilder foodCategoryQueryBuilder;
+
+    public FoodCategoryDao(FoodCategoryRepository foodCategoryRepository/*,
+                           FoodCategoryQueryBuilder foodCategoryQueryBuilder*/) {
+        this.foodCategoryRepository = foodCategoryRepository;
+//        this.foodCategoryQueryBuilder = foodCategoryQueryBuilder;
+    }
 
     public FoodCategoryEntity getEntity(Integer id) {
         if (!foodCategoryRepository.existsById(id)) {
@@ -47,10 +51,16 @@ public class FoodCategoryDao {
 
     public void updateEntity(FoodCategoryEntity entity) {
         log.debug("Entity before update: {}", entity);
-        foodCategoryQueryBuilder.setUpdateQueryStatement(entity);
-        String queryStatement = foodCategoryQueryBuilder.getUpdateQueryStatement();
-        log.debug("Update Query: {}", queryStatement);
-        foodCategoryRepository.update(queryStatement);
+//        foodCategoryQueryBuilder.setUpdateQueryStatement(entity);
+//        String queryStatement = foodCategoryQueryBuilder.getUpdateQueryStatement();
+//        log.debug("Update query: {}", queryStatement);
+//        foodCategoryRepository.update(queryStatement);
+        try {
+            foodCategoryRepository.update(entity, FoodCategoryEntity.class);
+        } catch (IllegalAccessException e) {
+            log.error(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteEntity(Integer id) {
