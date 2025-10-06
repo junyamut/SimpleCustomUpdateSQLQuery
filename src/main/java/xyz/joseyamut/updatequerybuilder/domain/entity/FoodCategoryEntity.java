@@ -1,5 +1,6 @@
 package xyz.joseyamut.updatequerybuilder.domain.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,7 +8,6 @@ import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;

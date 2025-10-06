@@ -12,7 +12,7 @@ import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
 import xyz.joseyamut.updatequerybuilder.domain.validation.PutFoodCategoryGroup;
 import xyz.joseyamut.updatequerybuilder.service.FoodCategoryService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 

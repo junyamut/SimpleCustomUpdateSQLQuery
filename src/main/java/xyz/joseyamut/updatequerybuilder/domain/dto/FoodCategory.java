@@ -9,10 +9,10 @@ import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
 import xyz.joseyamut.updatequerybuilder.domain.validation.PutFoodCategoryGroup;
 import xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 
@@ -77,8 +77,8 @@ public class FoodCategory {
     private String displayAsLocalDateTime(Timestamp timestamp) {
         if (timestamp != null) {
             return DateTimeFormatHelper.convertWithZonedDateTime(timestamp,
-                    DEFAULT_TARGET_ZONE_ID, ZoneId.systemDefault().toString(),
-                    "yyyy-MM-dd HH:mm:ss");
+                    DEFAULT_TARGET_ZONE_ID, "Asia/Manila",
+                    "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         }
         return null;
     }

@@ -11,9 +11,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import xyz.joseyamut.updatequerybuilder.domain.exception.ResourceNotFoundException;
 import xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.util.List;

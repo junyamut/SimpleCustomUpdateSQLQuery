@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringEscapeUtils;
 import xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.time.ZoneId;
