@@ -1,7 +1,6 @@
 package xyz.joseyamut.updatequerybuilder.domain.dao;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +16,13 @@ import java.util.List;
 @Component
 public class FoodCategoryDao {
 
-    @Autowired
-    private FoodCategoryRepository foodCategoryRepository;
+    private final FoodCategoryRepository foodCategoryRepository;
+    private final FoodCategoryQueryBuilder foodCategoryQueryBuilder;
 
-    @Autowired
-    private FoodCategoryQueryBuilder foodCategoryQueryBuilder;
+    public FoodCategoryDao(FoodCategoryRepository foodCategoryRepository, FoodCategoryQueryBuilder foodCategoryQueryBuilder) {
+        this.foodCategoryRepository = foodCategoryRepository;
+        this.foodCategoryQueryBuilder = foodCategoryQueryBuilder;
+    }
 
     public FoodCategoryEntity getEntity(Integer id) {
         if (!foodCategoryRepository.existsById(id)) {
