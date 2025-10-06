@@ -113,7 +113,6 @@ class UpdateQueryHelper {
         queryStatement.append(String.join(",", columns)).append(spacer);
         queryStatement.append("WHERE").append(spacer);
         queryStatement.append(String.join(spacer + this.operator + spacer, queryConditions));
-        log.info("Custom query: {}", queryStatement);
         return queryStatement.toString();
     }
 }

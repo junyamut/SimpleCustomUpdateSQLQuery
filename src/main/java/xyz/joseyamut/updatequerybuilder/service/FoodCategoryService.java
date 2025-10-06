@@ -48,6 +48,12 @@ public class FoodCategoryService {
         foodCategoryDao.updateEntity(foodCategoryEntity);
     }
 
+    public void selectiveUpdate(FoodCategory dto) {
+        FoodCategoryEntity foodCategoryEntity = new FoodCategoryEntity();
+        foodCategoryEntity.update(dto);
+        foodCategoryDao.selectiveUpdateEntity(foodCategoryEntity);
+    }
+
     public void delete(Integer id) {
         foodCategoryDao.deleteEntity(id);
     }

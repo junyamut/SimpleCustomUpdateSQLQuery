@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import xyz.joseyamut.updatequerybuilder.domain.validation.PostFoodCategoryGroup;
 import xyz.joseyamut.updatequerybuilder.domain.validation.PatchFoodCategoryGroup;
 import xyz.joseyamut.updatequerybuilder.domain.dto.FoodCategory;
+import xyz.joseyamut.updatequerybuilder.domain.validation.PutFoodCategoryGroup;
 import xyz.joseyamut.updatequerybuilder.service.FoodCategoryService;
 
 import javax.validation.Valid;
@@ -51,10 +52,25 @@ public class FoodCategoryController {
         return ResponseEntity.created(location).body(createdFoodCategory);
     }
 
-    @PatchMapping(consumes = {"application/json"})
-    @Validated(PatchFoodCategoryGroup.class)
+    @PutMapping(consumes = {"application/json"})
+    @Validated(PutFoodCategoryGroup.class)
     public ResponseEntity<Void> updateFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         foodCategoryService.update(foodCategory);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(foodCategory.getId())
+                .toUri();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .header("Location", String.valueOf(location))
+                .build();
+    }
+
+    @PatchMapping(consumes = {"application/json"})
+    @Validated(PatchFoodCategoryGroup.class)
+    public ResponseEntity<Void> patchFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
+        foodCategoryService.selectiveUpdate(foodCategory);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

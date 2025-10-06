@@ -41,12 +41,23 @@ public class FoodCategoryDao {
     }
 
     public Integer createEntity(FoodCategoryEntity entity) {
-        log.info("Entity before save: {}", entity);
+        log.debug("Entity before save: {}", entity);
         return foodCategoryRepository.saveAndFlush(entity).getId();
     }
 
     public void updateEntity(FoodCategoryEntity entity) {
-        log.debug("Entity before update: {}", entity);
+        if (!foodCategoryRepository.existsById(entity.getId())) {
+            throw new ResourceNotFoundException("Id does not exist");
+        }
+        log.debug("Entity for update: {}", entity);
+        foodCategoryRepository.saveAndFlush(entity);
+    }
+
+    public void selectiveUpdateEntity(FoodCategoryEntity entity) {
+        if (!foodCategoryRepository.existsById(entity.getId())) {
+            throw new ResourceNotFoundException("Id does not exist");
+        }
+        log.debug("Entity for update: {}", entity);
         foodCategoryQueryBuilder.setUpdateQueryStatement(entity);
         String queryStatement = foodCategoryQueryBuilder.getUpdateQueryStatement();
         log.debug("Update Query: {}", queryStatement);
