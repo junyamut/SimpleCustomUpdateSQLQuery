@@ -1,6 +1,8 @@
 DROP DATABASE if EXISTS `food_store`;
 
-CREATE DATABASE `food_store` 40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+CREATE DATABASE `food_store` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE `food_store`;
 
 DROP TABLE if EXISTS `food_category`;
 
