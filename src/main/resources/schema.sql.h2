@@ -1,0 +1,16 @@
+CREATE SCHEMA food_store;
+
+SET SCHEMA food_store;
+
+CREATE TABLE IF NOT EXISTS food_category (
+  food_category_id int AUTO_INCREMENT PRIMARY KEY,
+  name varchar(64) NOT NULL,
+  description varchar(254),
+  group_id int,
+  created_by varchar(48) NOT NULL,
+  created_on timestamp NOT NULL,
+  updated_by varchar(48),
+  updated_on timestamp,
+  is_active boolean
+ );
+

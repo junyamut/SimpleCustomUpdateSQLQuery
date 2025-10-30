@@ -1,17 +1,24 @@
 spring:
   datasource:
+#    driverClassName: org.h2.Driver
     url: jdbc:mysql://localhost:3306/food_store?useSSL=false&createDatabaseIfNotExist=true&characterEncoding=utf-8&useUnicode=true
-    username: # username
-    password: # password
+#    url: jdbc:h2:mem:food_store;DB_CLOSE_DELAY=-1;MODE=mysql;DATABASE_TO_UPPER=false;TRACE_LEVEL_FILE=0;
+    username: root # username
+    password: 12345 # password
   jpa:
+    defer-datasource-initialization: false
     show-sql: true
     hibernate:
       ddl-auto: create
     generate-ddl: true
     database-platform: org.hibernate.dialect.MariaDBDialect
+#    database-platform: org.hibernate.dialect.H2Dialect
   sql:
     init:
       mode: always
+  h2:
+    console:
+      enabled: true
 
 server:
   servlet:

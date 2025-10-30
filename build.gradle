@@ -1,7 +1,8 @@
 plugins {
+    id 'java'
     id 'org.springframework.boot' version '3.5.6'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'java'
+    id 'jacoco'
 }
 
 group 'xyz.joseyamut'
@@ -25,14 +26,62 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.42'
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
-    implementation 'net.logstash.logback:logstash-logback-encoder:5.3'
-
     implementation 'com.mysql:mysql-connector-j:9.4.0'
+//    runtimeOnly 'com.h2database:h2'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-test {
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.jacocoTestReport {
+    dependsOn tasks.test
+    reports {
+        xml.required = false // For SonarQube integration
+        html.required = true // Enable HTML reports
+        csv.required = false // Not needed
+    }
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: [
+                            '**/configuration/**',
+                            '**/repository/util/*Builder.class'
+                    ])
+                })
+        )
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.85
+            }
+        }
+    }
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: [
+                            '**/configuration/**',
+                            '**/repository/util/*Builder.class'
+                    ])
+                })
+        )
+    }
+}
+
+tasks.check.dependsOn tasks.jacocoTestCoverageVerification
+
+tasks.test {
+    finalizedBy tasks.jacocoTestReport
     useJUnitPlatform()
 }
