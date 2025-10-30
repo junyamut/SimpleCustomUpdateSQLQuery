@@ -28,7 +28,7 @@ public class FoodCategoryDao {
         if (!foodCategoryRepository.existsById(id)) {
             throw new ResourceNotFoundException("Id does not exist");
         }
-        return foodCategoryRepository.getOne(id);
+        return foodCategoryRepository.getReferenceById(id);
     }
 
     public List<FoodCategoryEntity> listEntities(String orderBy, Integer page, Integer size) {
