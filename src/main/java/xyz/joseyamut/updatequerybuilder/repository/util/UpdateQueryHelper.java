@@ -3,7 +3,7 @@ package xyz.joseyamut.updatequerybuilder.repository.util;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.logstash.logback.encoder.org.apache.commons.lang.StringEscapeUtils;
+import org.springframework.util.StringUtils;
 import xyz.joseyamut.updatequerybuilder.util.DateTimeFormatHelper;
 
 import jakarta.persistence.Column;
@@ -91,14 +91,14 @@ class UpdateQueryHelper {
     private String prepareObjectType(Object object) {
         StringBuilder preparedString = new StringBuilder();
         if (object instanceof String) {
-            String sanitized = StringEscapeUtils.escapeSql(object.toString());
+            String sanitized = escapeSql(object.toString());
             return String.valueOf(preparedString.append("'").append(sanitized).append("'"));
         }
         if (object instanceof Timestamp) {
             String convertedTimestamp = DateTimeFormatHelper.convertWithZonedDateTime((Timestamp) object,
                     ZoneId.systemDefault().toString(), this.targetZoneId,
                     "");
-            String sanitized = StringEscapeUtils.escapeSql(convertedTimestamp);
+            String sanitized = escapeSql(convertedTimestamp);
             return String.valueOf(preparedString.append("'").append(sanitized).append("'"));
         }
         return String.valueOf(preparedString.append(object));
@@ -114,5 +114,9 @@ class UpdateQueryHelper {
         queryStatement.append("WHERE").append(spacer);
         queryStatement.append(String.join(spacer + this.operator + spacer, queryConditions));
         return queryStatement.toString();
+    }
+
+    private String escapeSql(String value) {
+        return value == null ? null : StringUtils.replace(value, "'", "''");
     }
 }
