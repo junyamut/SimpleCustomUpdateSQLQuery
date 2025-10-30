@@ -12,8 +12,9 @@ The application builds a straightforward SQL update query statement from the fie
 in the update (PUT) payload.
 
 #### Notes
-* Needs more exception/error handling.
-* Add BDD/unit tests?
+* ~~Needs more exception/error handling.~~
+* ~~Add BDD/unit tests?~~
+* Integrate CriteriaBuilder for SQL query building.
 
 #### Caveats
 * ~~No validation in place for mandatory fields in POST or PUT requests.~~
