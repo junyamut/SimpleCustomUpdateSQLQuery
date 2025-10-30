@@ -4,12 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Repository;
 import xyz.joseyamut.updatequerybuilder.domain.entity.FoodCategoryEntity;
-import xyz.joseyamut.updatequerybuilder.repository.interfaces.CustomQueryRepository;
 
-@EnableJpaRepositories
-public interface FoodCategoryRepository extends JpaRepository<FoodCategoryEntity, Integer>, CustomQueryRepository {
+@Repository
+public interface FoodCategoryRepository extends JpaRepository<FoodCategoryEntity, Integer>, ExtendedRepository {
 
     @Query(
             value = "SELECT * FROM food_category ORDER BY food_category_id ASC",
