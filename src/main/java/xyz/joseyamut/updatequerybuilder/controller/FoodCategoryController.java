@@ -45,12 +45,7 @@ public class FoodCategoryController {
     public ResponseEntity<FoodCategory> createFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         Integer id = foodCategoryService.create(foodCategory);
         FoodCategory createdFoodCategory = foodCategoryService.get(id);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(id)
-                .toUri();
+        URI location = buildLocationUri(id);
         return ResponseEntity.created(location).body(createdFoodCategory);
     }
 
@@ -58,12 +53,7 @@ public class FoodCategoryController {
     @Validated(PutFoodCategoryGroup.class)
     public ResponseEntity<Void> updateFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         foodCategoryService.update(foodCategory);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(foodCategory.getId())
-                .toUri();
+        URI location = buildLocationUri(foodCategory.getId());
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .header("Location", String.valueOf(location))
                 .build();
@@ -73,12 +63,7 @@ public class FoodCategoryController {
     @Validated(PatchFoodCategoryGroup.class)
     public ResponseEntity<Void> patchFoodCategory(@Valid @RequestBody FoodCategory foodCategory) {
         foodCategoryService.selectiveUpdate(foodCategory);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(foodCategory.getId())
-                .toUri();
+        URI location = buildLocationUri(foodCategory.getId());
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .header("Location", String.valueOf(location))
                 .build();
@@ -88,5 +73,13 @@ public class FoodCategoryController {
     public ResponseEntity<Void> deleteFoodCategory(@PathVariable(name = "id") Integer id) {
         foodCategoryService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private URI buildLocationUri(Integer id) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 }
